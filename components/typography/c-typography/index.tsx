@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -22,7 +22,7 @@ type Props = {
   onPressed?: () => void;
 };
 
-export const Typography = memo(
+export const Typography = React.memo(
   ({
     TextConfig,
     size = "base",

@@ -30,65 +30,67 @@ type Props = {
   >;
 };
 
-export const CBottomSheetModal: React.FC<Props> = ({
-  bg,
-  children,
-  indicator,
-  backdropPress,
-  style,
-  isActive,
-  BottomSheetModalConfig,
-}) => {
-  const { height } = Dimensions.get("screen");
-  const rBackdropStyle = useAnimatedStyle(() => {
-    return {
-      opacity: withTiming(isActive ? 1 : 0),
-    };
-  }, [isActive]);
-  const rBackdropProps = useAnimatedProps(() => {
-    return {
-      pointerEvents: isActive ? "auto" : "none",
-    };
-  }, [isActive]) as any;
+export const CBottomSheetModal: React.FC<Props> = React.memo(
+  ({
+    bg,
+    children,
+    indicator,
+    backdropPress,
+    style,
+    isActive,
+    BottomSheetModalConfig,
+  }) => {
+    const { height } = Dimensions.get("screen");
+    const rBackdropStyle = useAnimatedStyle(() => {
+      return {
+        opacity: withTiming(isActive ? 1 : 0),
+      };
+    }, [isActive]);
+    const rBackdropProps = useAnimatedProps(() => {
+      return {
+        pointerEvents: isActive ? "auto" : "none",
+      };
+    }, [isActive]) as any;
 
-  return (
-    <TouchableWithoutFeedback onPress={backdropPress}>
-      <Animated.View
-        animatedProps={rBackdropProps}
-        style={[
-          {
-            height,
-            ...StyleSheet.absoluteFillObject,
-            backgroundColor: "rgba(0,0,0,.5)",
-            zIndex: 100,
-          },
-          rBackdropStyle,
-        ]}
-      >
-        <BottomSheetModal
-          {...{ ...BottomSheetModalConfig }}
-          style={[style]}
-          backgroundStyle={
-            !!bg && {
-              backgroundColor: bg,
-            }
-          }
-          handleIndicatorStyle={{
-            backgroundColor: "#D9D9D9",
-            width: 32,
-            display: indicator ? "flex" : "none",
-          }}
+    return (
+      <TouchableWithoutFeedback onPress={backdropPress}>
+        <Animated.View
+          animatedProps={rBackdropProps}
+          style={[
+            {
+              height,
+              ...StyleSheet.absoluteFillObject,
+              backgroundColor: "rgba(0,0,0,.5)",
+              zIndex: 100,
+            },
+            rBackdropStyle,
+          ]}
         >
-          <Padding
-            flex
-            horizontal={{
-              paddingHorizontal: responsiveWidth(settings.space.padding),
+          <BottomSheetModal
+            {...{ ...BottomSheetModalConfig }}
+            style={[style]}
+            backgroundStyle={
+              !!bg && {
+                backgroundColor: bg,
+              }
+            }
+            handleIndicatorStyle={{
+              backgroundColor: "#D9D9D9",
+              width: 32,
+              display: indicator ? "flex" : "none",
             }}
           >
-            {children}
-          </Padding>
-        </BottomSheetModal>
-      </Animated.View>
-    </TouchableWithoutFeedback>
-  );
-};
+            <Padding
+              flex
+              horizontal={{
+                paddingHorizontal: responsiveWidth(settings.space.padding),
+              }}
+            >
+              {children}
+            </Padding>
+          </BottomSheetModal>
+        </Animated.View>
+      </TouchableWithoutFeedback>
+    );
+  }
+);

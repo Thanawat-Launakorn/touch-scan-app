@@ -8,9 +8,9 @@ import { Padding } from "../../widgets/Padding";
 import { useNavigation } from "@react-navigation/native";
 
 type Props = {
-  headerLeft: boolean;
+  headerLeft?: boolean;
 };
-export const AppHeader: React.FC<Props> = ({ headerLeft }) => {
+export const AppHeader: React.FC<Props> = React.memo(({ headerLeft }) => {
   const navigation = useNavigation<Navigation>();
   const headerLeftHandler = React.useCallback(() => {
     navigation.goBack();
@@ -46,4 +46,4 @@ export const AppHeader: React.FC<Props> = ({ headerLeft }) => {
       </Padding>
     </View>
   );
-};
+});

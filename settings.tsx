@@ -11,6 +11,9 @@ const settings = {
     text: "black",
     shadow: "rgba(0,0,0,.5)",
   },
+  alert: {
+    no_service: "ยังไม่พร้อมให้บริการ",
+  },
   space: {
     padding: responsiveWidth(24),
   },

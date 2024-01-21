@@ -8,6 +8,7 @@ import { langs, Navigation } from "../type/common";
 import { AppPage } from "../components/layout/page";
 import { Typography } from "../components/typography";
 import { useNavigation } from "@react-navigation/native";
+
 type Props = {};
 
 export default function Welcome({}: Props) {
@@ -17,7 +18,7 @@ export default function Welcome({}: Props) {
       navigation.navigate("Disclaimer");
       return;
     }
-    Alert.alert("Notification", "ยังไม่พร้อมให้บริการ");
+    Alert.alert("Notification", settings.alert.no_service);
   }, []);
   return (
     <AppPage>
@@ -53,7 +54,7 @@ export default function Welcome({}: Props) {
             />
             <SizeBox
               vertical={{
-                marginVertical: settings.space.padding / 2,
+                marginVertical: 6,
               }}
             />
             <CButton

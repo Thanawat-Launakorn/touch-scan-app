@@ -2,26 +2,26 @@ import React from "react";
 import settings from "../settings";
 import { View } from "react-native";
 import { CIcon } from "../components/icon";
+import { Navigation } from "../type/common";
 import { Column, SizeBox } from "../widgets";
 import { Padding } from "../widgets/Padding";
 import { AppPage } from "../components/layout";
 import { CButton } from "../components/button";
 import { Typography } from "../components/typography";
+import { useNavigation } from "@react-navigation/native";
 
 type Props = {};
 
 export default function OTP({}: Props) {
+  const navigation = useNavigation<Navigation>();
+  const onRequestOTP = React.useCallback(() => {
+    navigation.navigate("RequestOTP");
+  }, []);
+
   return (
-    <AppPage
-      style={{
-        paddingTop: settings.header.height,
-      }}
-    >
-      <Column flex style={{}}>
+    <AppPage header>
+      <Column flex>
         <Padding
-          horizontal={{
-            marginHorizontal: settings.space.padding,
-          }}
           style={{
             justifyContent: "center",
           }}
@@ -53,7 +53,12 @@ export default function OTP({}: Props) {
               marginVertical: settings.space.padding,
             }}
           />
-          <CButton title="ขอรหัส OTP" size="small" buttonStyle="semi-rounded" />
+          <CButton
+            title="ขอรหัส OTP"
+            size="small"
+            buttonStyle="semi-rounded"
+            onPress={onRequestOTP}
+          />
           <SizeBox
             vertical={{
               marginVertical: settings.space.padding / 4,
@@ -65,6 +70,7 @@ export default function OTP({}: Props) {
             color="#7A7A7A"
             fontStyle={{
               fontFamily: "Kanit-Light",
+              textAlign: "center",
             }}
           />
         </Padding>

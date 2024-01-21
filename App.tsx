@@ -1,10 +1,13 @@
 import React from "react";
+import Pin from "./pages/Pin";
 import OTP from "./pages/OTP";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Touch from "./pages/Touch";
 import { useFonts } from "expo-font";
 import storage from "./utils/storage";
 import Welcome from "./pages/Welcome";
+import RequestOTP from "./pages/RequestOTP";
 import Disclaimer from "./pages/Disclaimer";
 import { ImageBackground } from "react-native";
 import { AppHeader } from "./components/layout";
@@ -26,6 +29,9 @@ export type RootStackParamsList = {
   Disclaimer: undefined;
   ForgotPassword: undefined;
   OTP: undefined;
+  RequestOTP: undefined;
+  Pin: { accept?: boolean; touchId?: boolean; pin?: string };
+  Touch: undefined;
 };
 
 const Loading = () => {
@@ -60,7 +66,7 @@ const Loading = () => {
         }}
         resizeMode="cover"
         source={require("./assets/png/splash-app.png")}
-      ></ImageBackground>
+      />
     </AppPage>
   );
 };
@@ -106,7 +112,16 @@ export default function App() {
                   headerShown: false,
                 }}
               >
+                <Stack.Screen name="Pin" component={Pin} />
                 <Stack.Screen name="Home" component={Home} />
+                <Stack.Screen
+                  name="Touch"
+                  component={Touch}
+                  options={{
+                    gestureEnabled: true,
+                    presentation: "modal",
+                  }}
+                />
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="Welcome" component={Welcome} />
                 <Stack.Screen name="Loading" component={Loading} />
@@ -122,6 +137,7 @@ export default function App() {
                   component={ForgotPassword}
                 />
                 <Stack.Screen name="OTP" component={OTP} />
+                <Stack.Screen name="RequestOTP" component={RequestOTP} />
               </Stack.Group>
             </Stack.Navigator>
           </BottomSheetModalProvider>

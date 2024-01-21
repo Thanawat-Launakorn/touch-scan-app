@@ -4,8 +4,15 @@ const isEmpty = (val: unknown) => {
   else return false;
 };
 
+export const sleep = (duration: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, duration);
+  });
+};
+
 const toolCommon = {
   isEmpty,
+  sleep,
 };
 
 export default toolCommon;

@@ -1,12 +1,13 @@
 import React from "react";
-import { View } from "react-native";
 import { CButton } from "../button";
 import settings from "../../settings";
 import { Typography } from "../typography";
+import { Alert, View } from "react-native";
 import { Column, Row } from "../../widgets";
 import toolCommon from "../../utils/common";
 import { CCheckBox, CInput } from "../input";
 import { Padding } from "../../widgets/Padding";
+import { KeyboardAvoidingComponent } from "../keyboard";
 import { useNavigation } from "@react-navigation/native";
 import { InputValues, Navigation } from "../../type/common";
 import { responsiveHeight, responsiveWidth } from "../../utils/responsive";
@@ -20,7 +21,7 @@ export type formLogin = {
   password: string;
 };
 
-export const CFormLogin: React.FC<Props> = ({ submitCallback }) => {
+export const CFormLogin: React.FC<Props> = React.memo(({ submitCallback }) => {
   const [bounce, setBounce] = React.useState(0);
   const navigation = useNavigation<Navigation>();
   const [inputValues, setInputValues] = React.useState<
@@ -69,104 +70,114 @@ export const CFormLogin: React.FC<Props> = ({ submitCallback }) => {
     navigation.navigate("ForgotPassword");
   };
 
+  const onRegister = () => {
+    Alert.alert("Notification", settings.alert.no_service);
+  };
+
   return (
-    <Column
-      flex
-      style={{
-        justifyContent: "center",
-      }}
-    >
-      <Padding
-        horizontal={{
-          paddingHorizontal: responsiveWidth(settings.space.padding),
+    <KeyboardAvoidingComponent>
+      <Column
+        flex
+        style={{
+          justifyContent: "center",
         }}
       >
-        <CInput
-          isValid={inputValues.username?.isValid}
-          bounce
-          onSubmit={bounce}
-          TextInputConfig={{
-            placeholder: "ชื่อผู้้ใช้งาน",
-            onChangeText: (v) => inputHandler("username", v),
-          }}
-          size="tiny"
-        />
-
-        <CInput
-          isValid={inputValues.password?.isValid}
-          bounce
-          onSubmit={bounce}
-          password
-          TextInputConfig={{
-            placeholder: "รหัสผ่าน",
-            onChangeText: (v) => inputHandler("password", v),
-          }}
-          size="tiny"
-        />
-
-        <Row
-          justifyContent="space-between"
-          style={{
-            marginTop: responsiveHeight(settings.space.padding / 4),
-            marginBottom: responsiveHeight(settings.space.padding),
+        <Padding
+          horizontal={{
+            paddingHorizontal: responsiveWidth(settings.space.padding),
           }}
         >
-          <CCheckBox onChangeValue={(v) => v} label="บันทึกการเข้าสู่ระบบ" />
-          <Typography
-            onPressed={onForgot}
-            children="ลืมรหัสผ่าน?"
+          <CInput
+            isValid={inputValues.username?.isValid}
+            bounce
+            onSubmit={bounce}
+            TextInputConfig={{
+              placeholder: "ชื่อผู้ใช้งาน",
+              onChangeText: (v) => inputHandler("username", v),
+            }}
             size="tiny"
-            color="#646465"
-            fontStyle={{
-              fontFamily: "Kanit-Light",
-            }}
           />
-        </Row>
 
-        <CButton
-          title="เข้าสู่ระบบ"
-          onPress={onSubmitHandler}
-          size="small"
-          buttonStyle="semi-rounded"
-        />
+          <CInput
+            isValid={inputValues.password?.isValid}
+            bounce
+            onSubmit={bounce}
+            password
+            TextInputConfig={{
+              placeholder: "รหัสผ่าน",
+              onChangeText: (v) => inputHandler("password", v),
+            }}
+            size="tiny"
+          />
 
-        <Row
-          style={{
-            marginVertical: responsiveHeight(settings.space.padding),
-          }}
-        >
-          <View
+          <Row
+            justifyContent="space-between"
             style={{
-              flex: 1,
-              height: 1,
-              backgroundColor: "#B7B7B7",
+              marginTop: responsiveHeight(settings.space.padding / 4),
+              marginBottom: responsiveHeight(settings.space.padding),
             }}
-          />
-          <Typography
-            children="ไม่มีบัญชีผู้ใช้"
+          >
+            <CCheckBox onChangeValue={(v) => v} label="บันทึกการเข้าสู่ระบบ" />
+            <Typography
+              onPressed={onForgot}
+              children="ลืมรหัสผ่าน?"
+              size="tiny"
+              color="#646465"
+              fontStyle={{
+                fontFamily: "Kanit-Light",
+              }}
+            />
+          </Row>
+
+          <CButton
+            title="เข้าสู่ระบบ"
+            onPress={onSubmitHandler}
             size="small"
-            color="#646465"
-            fontStyle={{
-              fontFamily: "Kanit-Light",
-            }}
+            buttonStyle="semi-rounded"
           />
-          <View
-            style={{
-              flex: 1,
-              height: 1,
-              backgroundColor: "#B7B7B7",
-            }}
-          />
-        </Row>
 
-        <CButton
-          opposite
-          title="เปิดบัญชีเพื่อลงทะเบียนบัญชีผู้ใช้"
-          onPress={() => {}}
-          size="small"
-          buttonStyle="semi-rounded"
-        />
-      </Padding>
-    </Column>
+          <Row
+            style={{
+              marginVertical: responsiveHeight(settings.space.padding),
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                height: 1,
+                backgroundColor: "#B7B7B7",
+              }}
+            />
+
+            <Typography
+              children="ไม่มีบัญชีผู้ใช้"
+              size="small"
+              color="#646465"
+              fontStyle={{
+                fontFamily: "Kanit-Light",
+              }}
+              style={{
+                marginHorizontal: settings.space.padding / 2,
+              }}
+            />
+            <View
+              style={{
+                flex: 1,
+                height: 1,
+                backgroundColor: "#B7B7B7",
+              }}
+            />
+          </Row>
+
+          <CButton
+            opposite
+            title="เปิดบัญชีเพื่อลงทะเบียนบัญชีผู้ใช้"
+            onPress={onRegister}
+            size="small"
+            buttonStyle="semi-rounded"
+          />
+        </Padding>
+      </Column>
+    </KeyboardAvoidingComponent>
   );
-};
+});

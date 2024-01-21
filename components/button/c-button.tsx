@@ -6,6 +6,7 @@ import {
   ViewStyle,
   DimensionValue,
   TextStyle,
+  Keyboard,
 } from "react-native";
 import settings from "../../settings";
 import { Size } from "../../type/common";
@@ -15,6 +16,7 @@ import { responsiveHeight, responsiveWidth } from "../../utils/responsive";
 
 export const CButton = React.memo(
   ({
+    border = true,
     disable = false,
     shadow = true,
     height = "auto",
@@ -31,6 +33,7 @@ export const CButton = React.memo(
     prefix,
     fontStyle,
   }: {
+    border?: boolean;
     disable?: boolean;
     shadow?: boolean;
     height?: DimensionValue;
@@ -117,13 +120,16 @@ export const CButton = React.memo(
           !!opposite && {
             backgroundColor: pressed ? settings.theme.primary : "white",
             borderWidth: 1,
-            borderColor: settings.theme.primary,
+            borderColor: border ? settings.theme.primary : "transparent",
           },
 
           styles.button,
           style,
         ]}
-        onPress={onPress}
+        onPress={() => {
+          onPress && onPress();
+          Keyboard.dismiss();
+        }}
       >
         {({ pressed }) => (
           <Row>

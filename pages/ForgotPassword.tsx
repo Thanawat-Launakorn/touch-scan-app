@@ -1,10 +1,11 @@
 import React from "react";
 import settings from "../settings";
-import { Keyboard } from "react-native";
+import toolCommon from "../utils/common";
 import { CIcon } from "../components/icon";
 import { Column, SizeBox } from "../widgets";
 import { CButton } from "../components/button";
 import { AppPage } from "../components/layout";
+import { CLoading } from "../components/loading";
 import { delay, Navigation } from "../type/common";
 import { Typography } from "../components/typography";
 import { useNavigation } from "@react-navigation/native";
@@ -16,24 +17,34 @@ import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/typ
 type Props = {};
 
 export default function ForgotPassword({}: Props) {
+  const [loading, setLoading] = React.useState(false);
   const bottomSheetRef = React.useRef<BottomSheetModalMethods>(null);
   const snapPoints = React.useMemo(() => ["100%"], []);
   const navigation = useNavigation<Navigation>();
   const confirmHandler = async (v: formForgotpassword) => {
     try {
+      setLoading(true);
+      await toolCommon.sleep(delay);
       if (v) {
         bottomSheetRef.current?.present();
-        Keyboard.dismiss();
       }
     } catch (err) {
       if (err instanceof Error) {
         console.error(err.message);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
-  const onDismiss = () => {
-    bottomSheetRef.current?.close();
+  const onDismiss = async () => {
+    try {
+      setLoading(true);
+      await toolCommon.sleep(delay);
+      bottomSheetRef.current?.close();
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onSuccess = () => {
@@ -42,12 +53,8 @@ export default function ForgotPassword({}: Props) {
   };
 
   return (
-    <AppPage
-      style={{
-        paddingTop: settings.header.height + settings.space.padding,
-        paddingHorizontal: settings.space.padding,
-      }}
-    >
+    <AppPage header>
+      {loading && <CLoading />}
       <CFormForgotpassword submitCallback={(v) => confirmHandler(v)} />
       <CBottomSheetModal
         BottomSheetModalConfig={{

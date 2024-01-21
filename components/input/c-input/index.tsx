@@ -96,7 +96,7 @@ export const CInput = React.memo(
               ? [
                   styles.container,
                   {
-                    borderBottomWidth: 1.5,
+                    borderBottomWidth: 1,
                     borderBottomColor: focus
                       ? settings.theme.primary
                       : borderColor,
@@ -137,10 +137,9 @@ export const CInput = React.memo(
               fontStyle,
               inputStyle,
               styles.input,
+              { fontFamily: "Kanit-Light" },
               size === "tiny"
                 ? {
-                    paddingVertical: responsiveHeight(6.5),
-                    paddingHorizontal: responsiveWidth(12),
                     fontSize: 12,
                   }
                 : size === "search"
