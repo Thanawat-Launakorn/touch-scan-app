@@ -33,7 +33,7 @@ export const CCheckBox: React.FC<Props> = React.memo(
         />
         <SizeBox
           horizontal={{
-            marginHorizontal: responsiveWidth(settings.space.padding / 4),
+            marginHorizontal: responsiveWidth(settings.space.padding / 8),
           }}
         />
         <Typography
