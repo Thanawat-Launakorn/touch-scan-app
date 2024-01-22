@@ -19,12 +19,10 @@ type Props = {
 };
 
 export default function Pin({ route }: Props) {
-  const pin = route?.params?.pin;
-  const isAccept = route?.params?.accept;
-  const isTouch = route?.params?.touchId;
   const navigation = useNavigation<Navigation>();
   const [loading, setLoading] = React.useState(false);
   const [visible, setVisible] = React.useState(false);
+  const { accept: isAccept, pin, touchId: isTouch } = route?.params || {};
 
   const confirmHandler = async (v: string[]) => {
     const v_pin = v.join("");
